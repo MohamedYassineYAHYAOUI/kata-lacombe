@@ -1,7 +1,7 @@
 package fr.lacombe;
 
 public enum CoffeeType {
-    TEA("T"), COFFEE("C"), CHOCOLATE("H");
+    TEA("T"), COFFEE("C"), CHOCOLATE("H"), ORANGE("O");
 
     private final String typeCode;
 
