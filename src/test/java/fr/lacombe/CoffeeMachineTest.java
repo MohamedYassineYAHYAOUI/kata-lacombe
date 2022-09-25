@@ -8,10 +8,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CoffeeMachineTest {
 
     private CoffeeMachine coffeeMachine;
+    private DrinksDataRepo drinksReport;
 
     @BeforeEach
     void setUp() {
-        coffeeMachine = CoffeeMachineFactory();
+        drinksReport = DrinksDataRepo.drinksRepoFactory();
+        coffeeMachine = CoffeeMachineFactory(drinksReport);
     }
 
     @Test
@@ -34,7 +36,26 @@ class CoffeeMachineTest {
         assertThat(coffeeMachine.makeCoffeeWithMoney(CoffeeType.CHOCOLATE, 1, 0.1f)).isEqualTo("M:not enough money, missing 0.4");
         assertThat(coffeeMachine.makeCoffeeWithMoney(CoffeeType.ORANGE, 1, 0.1f)).isEqualTo("M:not enough money, missing 0.5");
         assertThat(coffeeMachine.makeCoffeeWithMoney(CoffeeType.ORANGE, 1, 0.5f)).isEqualTo("M:not enough money, missing 0.1");
+    }
 
+
+    @Test
+    void should_get_correct_report_1(){
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.COFFEE, 2,3f );
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.CHOCOLATE, 2,3f);
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.COFFEE, 2,3f );
+        assertThat(drinksReport.getReport()).isEqualToIgnoringNewLines("Chocolate: 1, Coffee: 2, Orange: 0, Tea: 0, Money: 1,7");
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.CHOCOLATE, 2,3f);
+        assertThat(drinksReport.getReport()).isEqualToIgnoringNewLines("Chocolate: 2, Coffee: 2, Orange: 0, Tea: 0, Money: 2,2");
+    }
+
+    @Test
+    void should_get_correct_report_2(){
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.ORANGE, 2,3f );
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.CHOCOLATE, 2,3f);
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.COFFEE, 2,3f );
+        coffeeMachine.makeCoffeeWithMoney(CoffeeType.TEA, 2,3f );
+        assertThat(drinksReport.getReport()).isEqualToIgnoringNewLines("Chocolate: 1, Coffee: 1, Orange: 1, Tea: 1, Money: 2,1");
     }
 
 

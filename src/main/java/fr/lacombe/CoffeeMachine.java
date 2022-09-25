@@ -14,22 +14,24 @@ import java.util.Map;
 public class CoffeeMachine {
 
     private final Map<CoffeeType, Drink> drinks; // map for the coffee by type
+    private final DrinksDataRepo drinksRepo;
 
-    private CoffeeMachine(Map<CoffeeType, Drink> drinks){
+    private CoffeeMachine(Map<CoffeeType, Drink> drinks, DrinksDataRepo drinksRepo){
         this.drinks = drinks;
+        this.drinksRepo = drinksRepo;
     }
 
     /**
      * factory method for the coffee Machine class
      * @return new instance of CoffeeMachine
      */
-    public static CoffeeMachine CoffeeMachineFactory(){
+    public static CoffeeMachine CoffeeMachineFactory(DrinksDataRepo drinksRepo){
         var coffeePrices = new HashMap<CoffeeType, Drink>();
         coffeePrices.put(CoffeeType.COFFEE, new Coffee(0.6));
         coffeePrices.put(CoffeeType.TEA, new Tea(0.4));
         coffeePrices.put(CoffeeType.CHOCOLATE,new Chocolate(0.5));
         coffeePrices.put(CoffeeType.ORANGE,new Orange(0.6));
-        return new CoffeeMachine(coffeePrices);
+        return new CoffeeMachine(coffeePrices, drinksRepo);
     }
 
 
@@ -42,6 +44,7 @@ public class CoffeeMachine {
         if( diff  > 0){
             return "M:not enough money, missing "+ diff;
         }
+        drinksRepo.orderedDrink(coffeeType, drink.price()); //
         return drink.drinkCommand(sugar);
     }
 }

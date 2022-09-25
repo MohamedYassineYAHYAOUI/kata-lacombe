@@ -18,4 +18,9 @@ public class Tea extends AbstractDrink  implements Drink {
     public float subtractFromDrinkValue(float money) {
         return super.subFromDrinkValue(money);
     }
+
+    @Override
+    public double price() {
+        return super.getPrice();
+    }
 }

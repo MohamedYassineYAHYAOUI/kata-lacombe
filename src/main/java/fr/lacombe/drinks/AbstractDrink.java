@@ -27,6 +27,10 @@ class AbstractDrink {
         return drinkType.getTypeCode();
     }
 
+     double getPrice() {
+        return price.doubleValue();
+    }
+
     float subFromDrinkValue(double money){
         return price.subtract(new BigDecimal(money)).floatValue();
     }

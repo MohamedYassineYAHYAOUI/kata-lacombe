@@ -5,4 +5,6 @@ public interface Drink {
     String drinkCommand(int sugar);
 
     float subtractFromDrinkValue(float money);
+
+    double price();
 }
